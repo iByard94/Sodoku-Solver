@@ -1,16 +1,11 @@
-
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 /**
  * 
  * @author Isaac Byard
@@ -19,23 +14,20 @@ import java.util.Random;
  */
 public class Grid extends JPanel
 {
-static int SIZE = 9; //numer of grid spaces. (this is a constant that should not be changed by the programmer.
+	
+static int SIZE = 9; //number of grid spaces. (this is a constant that should not be changed by the programmer.
 private static int BASE_HEIGHT = 50; //the pixel height and width of the squares in the grid
 	
 JButton button = new JButton();
 ControlPanel cPanel = new ControlPanel();
 Listener listener = new Listener();
 Numbers numbers = new  Numbers();
-int[] numArray = numbers.getNumArray();
+//int[] numArray = numbers.getNumArray();  THIS IS THE OLD NUMBER FUNCTIONS
+int[] numArray = numbers.generateZeros(numbers.getGeneratedNumArray(), 25);
 Solver solver = new Solver(numArray);
 
 
-
-//Listener listener = new Listener();
-
-
-
-public  void resetGame()
+public void resetGame()
 {
 	repaint();
 }
@@ -49,15 +41,22 @@ public  void resetGame()
 		cPanel.solve.addActionListener(listener);
 		cPanel.solve.setActionCommand("solve");
 
-
+		cPanel.generateEasy.addActionListener(listener);
+		cPanel.generateEasy.setActionCommand("generateEasy");
+		
+		cPanel.generateMedium.addActionListener(listener);
+		cPanel.generateMedium.setActionCommand("generateMedium");
+		
+		cPanel.generateHard.addActionListener(listener);
+		cPanel.generateHard.setActionCommand("generateHard");
 	}
+	
 /**
  * paintComponent is automatically called by the JPanel.
  * This is in charge of managing all the graphics. 
  */
 	public void paintComponent(Graphics pen)
 	{
-
 		Graphics2D g2d =  (Graphics2D) pen;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Location location = new Location();
@@ -77,7 +76,7 @@ public  void resetGame()
 				{ 
 					
 					pen.drawRect(location.getXLocation(xIndex, yIndex), location.getYLocation(xIndex, yIndex), currentHeight, currentHeight);
-					pen.drawString(numbers.getString(numberIndex), location.getXLocation(xIndex, yIndex)+25, location.getYLocation(xIndex, yIndex)+25);
+					pen.drawString(numbers.getString(numberIndex, numArray), location.getXLocation(xIndex, yIndex)+25, location.getYLocation(xIndex, yIndex)+25);
 					numberIndex++; 
 				}
 				xPos = X_START_POS;
@@ -114,11 +113,31 @@ public  void resetGame()
 			String action = event.getActionCommand();
 			if (action.equals("solve"))
 			{
-					solver.backtrack(0, numArray);
-					numArray = solver.getAnswers().clone();
-					//numArray = solver.checkPuzzle(numArray).clone();
-
+					//solver.backtrack(0, numArray);
+					numArray = solver.checkPuzzle(numArray).clone();
+					//numArray = solver.getAnswers().clone();
 					numbers = new  Numbers(numArray);
+					revalidate();
+					repaint();
+			}
+			else if (action.equals("generateEasy"))
+			{
+					//solver.backtrack(0, numArray);
+					numArray = numbers.generateZeros(numbers.getGeneratedNumArray(), 25);
+					revalidate();
+					repaint();
+			}
+			else if (action.equals("generateMedium"))
+			{
+					//solver.backtrack(0, numArray);
+					numArray = numbers.generateZeros(numbers.getGeneratedNumArray(), 50);
+					revalidate();
+					repaint();
+			}
+			else if (action.equals("generateHard"))
+			{
+					//solver.backtrack(0, numArray);
+					numArray = numbers.generateZeros(numbers.getGeneratedNumArray(), 60);
 					revalidate();
 					repaint();
 			}

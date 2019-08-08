@@ -1,14 +1,9 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 /**
  * 
  * @author Isaac Byard
@@ -23,7 +18,9 @@ public class ControlPanel extends JPanel
 {
 
 	JButton solve = new JButton("Solve");	
-
+	JButton generateEasy = new JButton("New Easy");
+	JButton generateMedium = new JButton("New Medium");
+	JButton generateHard = new JButton("New Hard");
 
 /**
  * paintComponent() is a method being overridden from the JPanel class.
@@ -36,14 +33,25 @@ public class ControlPanel extends JPanel
 	{
 		pen.setColor(Color.DARK_GRAY);
 		pen.fillRect(000, 000, 700, 500);
-	
 		add(solve);
-
 		solve.setBackground(Color.GREEN);
-
 		solve.setSize(100,100);
-
 		solve.setLocation(100,100);
+		
+		add(generateEasy);
+		generateEasy.setBackground(Color.GREEN);
+		generateEasy.setSize(100,100);
+		generateEasy.setLocation(7,400);
+		
+		add(generateMedium);
+		generateMedium.setBackground(Color.GREEN);
+		generateMedium.setSize(100,100);
+		generateMedium.setLocation(107,400);
+		
+		add(generateHard);
+		generateHard.setBackground(Color.GREEN);
+		generateHard.setSize(100,100);
+		generateHard.setLocation(207,400);
 
 	}
 }
